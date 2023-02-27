@@ -39,7 +39,17 @@ router.get('/articles/edit/:id', (req, res) =>
 
 router.get('/categories/edit/:id', (req, res) =>
 {
-    res.render('manage/edit_category', {title: 'Edit Category'});
+    Category.getCategoryById((err, category) => {
+        if(err) {
+            res.send("Error: Failed to retrieve category.");
+        }
+        else {
+            res.render('manage/edit_category', {
+                title: 'Edit Category',
+                category
+            });
+        }
+    }, req.params.id)
 });
 
 module.exports = router;

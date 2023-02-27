@@ -6,6 +6,7 @@ Category = require('../model/category')
 
 
 /* ----- Views -----  */
+
 router.get('/', (req, res) => {
     Category.getCategories((err, categories) => {
         if(err) {
@@ -36,6 +37,7 @@ router.get('/:id', (req, res) => {
 
 
 /* ----- Posts ----- */
+
 router.post('/add', (req, res) => {
     let category = new Category();
     category.title = req.body.title;
@@ -47,7 +49,26 @@ router.post('/add', (req, res) => {
             res.send("Error: Failed to create category.")
         }
         else {
-            console.log(category);
+            console.log("Adding category:", category)
+            res.redirect('/manage/categories');
+        }
+    })
+})
+
+router.post('/edit/:id', (req, res) => {
+    const id = req.params.id;
+    const update = {
+        title: req.body.title,
+        description: req.body.description
+    }
+
+    Category.updateCategory(id, update, (err, category) => {
+        if(err) {
+            console.log(err)
+            res.send("Error: Failed to edit category.")
+        }
+        else {
+            console.log("Updating category:", id, update, "\nres:", category)
             res.redirect('/manage/categories');
         }
     })
