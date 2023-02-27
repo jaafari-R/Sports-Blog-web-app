@@ -6,7 +6,7 @@ const { body, validationResult } = require('express-validator');
 const flash = require('connect-flash');
 
 
-const PORT = 3486
+const PORT = 3486;
 
 
 const app = express();
@@ -34,10 +34,19 @@ app.use( (req, res, next) => {
 });
 
 
-app.get('/', (req, res) => {
-    res.send("Hello!");
-});
+/* ----- Routes ----- */
+const index = require('./routes/index');
+const articles = require('./routes/articles');
+const categories = require('./routes/categories');
+const manage = require('./routes/manage');
 
+app.use('/', index);
+app.use('/articles', articles);
+app.use('/categories', categories);
+app.use('/manage', manage);
+
+
+/* ----- Start App ----- */
 app.listen(PORT, () => {
     console.log("Server is listening on port " + PORT);
 });
