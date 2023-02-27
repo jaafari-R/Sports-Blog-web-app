@@ -21,3 +21,8 @@ module.exports.getCategories = (callback, limit) => {
 module.exports.getCategoryById = (callback, _id) => {
     Category.findOne({_id: _id}, callback);
 }
+
+// add a new category
+module.exports.addCategory = (category, callback) => {
+    Category.create(category, callback);
+}

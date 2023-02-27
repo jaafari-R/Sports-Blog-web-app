@@ -2,12 +2,24 @@ const express = require('express');
 
 const router = express.Router();
 
+Category = require('../model/category')
+
+
 router.get('/articles', (req, res) => {
     res.render('manage/manage_articles', {title: "Manage Articles"});
 });
 
 router.get('/categories', (req, res) => {
-    res.render('manage/manage_categories', {title: "Manage Categories"});
+    Category.getCategories((err, categories) => {
+        if(err) {
+            console.log(err)
+            res.send("Error: Failed to create categories.")
+        }
+        res.render('manage/manage_categories', {
+            title: 'Manage Categories',
+            categories: categories
+        });
+    })
 });
 
 router.get('/articles/add', (req, res) =>

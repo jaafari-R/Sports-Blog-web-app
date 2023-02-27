@@ -1,9 +1,10 @@
 extends ../layout 
 
 
-block content 
-    h1 #{title}
-    ul
-        each category, i in categories
-            li
-                a(href=`/categories/${category._id}`) #{category.title}
+block content
+    .container
+        h1 #{title}
+        ul.list-group
+            each category, i in categories
+                li.list-group-item
+                    a(href=`/categories/${category._id}`) #{category.title}
