@@ -62,15 +62,27 @@ router.post('/edit/:id', (req, res) => {
         description: req.body.description
     }
 
-    Category.updateCategory(id, update, (err, category) => {
+    Category.updateCategory(id, update, (err, res) => {
         if(err) {
             console.log(err)
             res.send("Error: Failed to edit category.")
         }
         else {
-            console.log("Updating category:", id, update, "\nres:", category)
+            console.log("Updating category:", id, update, "\nres:", res)
             res.redirect('/manage/categories');
         }
+    })
+})
+
+
+/* ----- Delete ----- */
+router.delete('/delete/:id', (req, res) => {
+    const id = req.params.id;
+    console.log("TEST")
+    
+    Category.deleteCategory(id, (err, result) => {
+        console.log("Deleting category:", id, "\nres:", result);
+        res.sendStatus(200);
     })
 })
 

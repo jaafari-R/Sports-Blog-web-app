@@ -13,5 +13,9 @@ block content
                 textarea.form-control(name='description') #{category.description}
             br
             input(class='btn btn-primary form-control' type='submit', name='submit', value='save')
+            br
+            br
+            a(class="btn btn-danger btn-tiny category-delete form-control" href=`#` data-cat-id=category._id) Delete
+            hr
             hr
             a(class='btn btn-danger form-control' href='/manage/categories') Back

@@ -27,7 +27,12 @@ module.exports.addCategory = (category, callback) => {
     Category.create(category, callback);
 }
 
-// add a new category
+// Update a category
 module.exports.updateCategory = (_id, category, callback) => {
     Category.updateOne({_id: _id}, category, callback);
+}
+
+// Delete a category
+module.exports.deleteCategory = (_id, callback) => {
+    Category.deleteOne({_id: _id}, callback);
 }
