@@ -4,11 +4,18 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const { body, validationResult } = require('express-validator');
 const flash = require('connect-flash');
+const mongoose = require('mongoose');
 
 
 const PORT = 3486;
+const MONGODB_URL = 'mongodb://127.0.0.1/sports-blog';
 
 
+// Mongodb Connection
+mongoose.connect(MONGODB_URL);
+const db = mongoose.connection;
+
+// App Init
 const app = express();
 
 

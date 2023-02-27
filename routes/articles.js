@@ -10,8 +10,4 @@ router.get('/show/:id', (req, res) => {
     res.render('articles/article', {title: "Article"});
 });
 
-router.get('/category/:id', (req, res) => {
-    res.render('categories/categories', {title: "Category"});
-});
-
 module.exports = router;
