@@ -10,18 +10,15 @@ Article = require('../model/article')
 
 /* Article Management */
 router.get('/articles', (req, res) => {
-    Article.getArticles(undefined, (err, articles) => {
-        if(err)
-        {
-            console.log(err);
-            res.send("Error: Failer to retrieve articles")
-        }
-        else {
-            res.render('manage/manage_articles', {
-                title: "Manage Articles",
-                articles: articles
-            });
-        }
+
+    Article.getArticles()
+    .then((articles) => {
+        res.render('manage/manage_articles', {
+            title: "Manage Articles",
+            articles: articles
+        });
+    }, (err) => {
+        res.send("Error: Failed to retrieve articles");
     });
 });
 
@@ -33,7 +30,9 @@ router.get('/articles/add', (req, res) =>
             title: 'Create Article',
             categories
         });            
-    })
+    }, (err) => {
+        res.send("Error: Failed to add article");
+    });
 });
 
 router.get('/articles/edit/:id', (req, res) =>
@@ -49,23 +48,26 @@ router.get('/articles/edit/:id', (req, res) =>
                 categories,
                 article
             });    
+        }, (err) => {
+            res.send("Error: Failed to retrieve categories.");
         });
+    }, (err) => {
+        res.send("Error: Failed to retrieve article data.");
     });
 });
 
 
 /* ----- Category Management ----- */
 router.get('/categories', (req, res) => {
-    Category.getCategories((err, categories) => {
-        if(err) {
-            console.log(err)
-            res.send("Error: Failed to create categories.")
-        }
+    Category.getCategories()
+    .then((categories) => {
         res.render('manage/manage_categories', {
             title: 'Manage Categories',
-            categories: categories
+            categories
         });
-    })
+    }, (err) => {
+        res.send("Error: Failed to retrieve categories.");
+    });
 });
 
 router.get('/categories/add', (req, res) =>
@@ -76,17 +78,17 @@ router.get('/categories/add', (req, res) =>
 
 router.get('/categories/edit/:id', (req, res) =>
 {
-    Category.getCategoryById((err, category) => {
-        if(err) {
-            res.send("Error: Failed to retrieve category.");
-        }
-        else {
-            res.render('manage/edit_category', {
-                title: 'Edit Category',
-                category
-            });
-        }
-    }, req.params.id)
+    const id = req.params.id;
+
+    Category.getCategoryById(id)
+    .then((category) => {
+        res.render('manage/edit_category', {
+            title: 'Edit Category',
+            category
+        });
+    }, (err) => {
+        res.send("Error: Failed to retrieve category.");
+    });
 });
 
 module.exports = router;

@@ -27,16 +27,12 @@ router.post('/add', (req, res) => {
     article.author = req.body.author;
     article.comments = [];
 
-    Article.addArticle(article, (err, result) => {
-        if(err)
-        {
-            console.log(err);
-            res.send("Error: Failed to add article :(");
-        }
-        else {
-            console.log("Adding article:", result)
-            res.redirect('/manage/articles');
-        }
+    Article.addArticle(article)
+    .then((result) => {
+        console.log("Adding article:", result);
+        res.redirect('/manage/articles');
+    }, (err) => {
+        res.send("Error: Failed to add article :(");
     }); 
 });
 
@@ -51,17 +47,13 @@ router.post('/edit/:id', (req, res) => {
         comments: []
     }
 
-    Article.updateArticle(id, article, (err, result) => {
-        if(err)
-        {
-            console.log(err);
-            res.send("Error: Failed to add article :(");
-        }
-        else {
-            console.log("Adding article:", result)
-            res.redirect('/manage/articles');
-        }
-    }); 
+    Article.updateArticle(id, article)
+    .then((result) => {
+        console.log("Adding article:", result)
+        res.redirect('/manage/articles');
+    }, (err) => {
+        res.send("Error: Failed to add article :(");
+    });
 });
 
 /* ----- Delete ----- */

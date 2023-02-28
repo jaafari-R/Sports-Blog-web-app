@@ -41,35 +41,29 @@ router.post('/add', (req, res) => {
     category.title = req.body.title;
     category.description = req.body.description;
 
-    Category.addCategory(category, (err, category) => {
-        if(err) {
-            console.log(err)
-            res.send("Error: Failed to create category.")
-        }
-        else {
-            console.log("Adding category:", category)
-            res.redirect('/manage/categories');
-        }
-    })
+    Category.addCategory(category)
+    .then((result) => {
+        console.log("Adding category:", category);
+        res.redirect('/manage/categories');
+    }, (err) => {
+        res.send("Error: Failed to create category.");
+    });
 })
 
 router.post('/edit/:id', (req, res) => {
     const id = req.params.id;
-    const update = {
+    const category = {
         title: req.body.title,
         description: req.body.description
     }
 
-    Category.updateCategory(id, update, (err, res) => {
-        if(err) {
-            console.log(err)
-            res.send("Error: Failed to edit category.")
-        }
-        else {
-            console.log("Updating category:", id, update, "\nres:", res)
-            res.redirect('/manage/categories');
-        }
-    })
+    Category.updateCategory(id, category)
+    .then((result) => {
+        console.log("Updating category:", id, category, "\nres:", result);
+        res.redirect('/manage/categories');
+    }, (err) => {
+        res.send("Error: Failed to edit category.");
+    });
 })
 
 
@@ -78,10 +72,11 @@ router.delete('/delete/:id', (req, res) => {
     const id = req.params.id;
     console.log("TEST")
     
-    Category.deleteCategory(id, (err, result) => {
+    Category.deleteCategory(id)
+    .then((result) => {
         console.log("Deleting category:", id, "\nres:", result);
         res.sendStatus(200);
-    })
+    });
 })
 
 module.exports = router;
