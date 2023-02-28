@@ -18,11 +18,19 @@ const articleSchema = mongoose.Schema({
 
 const Article = module.exports = mongoose.model('Article', articleSchema);
 
-module.exports.getArticles = (limit, callback) => {
-    Article.find(callback).limit(limit).sort([['title', 'ascending']]);
+
+module.exports.getArticles = (limit) => {
+    return new Promise((resolve, reject) => {
+        Article.find((err, articles) => {
+            if(err)
+                reject(err);
+            else
+                resolve(articles);
+        }).limit(limit).sort([['title', 'ascending']]);
+    });
 }
 
-module.exports.getArticleById = (_id, callback) => {
+module.exports.getArticleById = (_id) => {
     return new Promise((resolve, reject) => {
         Article.findOne({_id: _id}, (err, article) => {
             if(err)
@@ -33,14 +41,35 @@ module.exports.getArticleById = (_id, callback) => {
     });
 }
 
-module.exports.addArticle = (article, callback) => {
-    Article.create(article, callback);
+module.exports.addArticle = (article) => {
+    return new Promise((resolve, reject) => {
+        Article.create(article, (err, res) => {
+            if(err)
+                reject(err);
+            else
+                resolve(res);
+        });
+    });
 }
 
-module.exports.updateArticle = (_id, article, callback) => {
-    Article.updateOne({_id: _id}, article, callback);
+module.exports.updateArticle = (_id, article) => {
+    return new Promise((resolve, reject) => {
+        Article.updateOne({_id: _id}, article, (err, res) => {
+            if(err)
+                reject(err);
+            else
+                resolve(res);
+        });
+    });
 }
 
-module.exports.deleteArticle = (_id, callback) => {
-    Article.deleteOne({_id: _id}, callback);
+module.exports.deleteArticle = (_id) => {
+    return new Promise((resolve, reject) => {
+        Article.deleteOne({_id: _id}, (err, res) => {
+            if(err)
+                reject(err);
+            else
+                resolve(res);
+        });
+    });
 }

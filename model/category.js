@@ -25,21 +25,43 @@ module.exports.getCategories = (limit) => {
 }
 
 // get category by _id
-module.exports.getCategoryById = (callback, _id) => {
-    Category.findOne({_id: _id}, callback);
+module.exports.getCategoryById = (_id) => {
+    return new Promise((resolve, reject) => {
+        Category.findOne({_id: _id}, (err, category) => {
+            if(err) 
+                reject(err);
+            else
+                resolve(category);
+        });
+    });
 }
 
 // add a new category
-module.exports.addCategory = (category, callback) => {
-    Category.create(category, callback);
+module.exports.addCategory = (category) => {
+    Category.create(category, (err, res) => {
+        if(err) 
+            reject(err);
+        else
+            resolve(res);
+    });
 }
 
 // Update a category
-module.exports.updateCategory = (_id, category, callback) => {
-    Category.updateOne({_id: _id}, category, callback);
+module.exports.updateCategory = (_id, category) => {
+    Category.updateOne({_id: _id}, category, (err, res) => {
+        if(err) 
+            reject(err);
+        else
+            resolve(res);
+    });
 }
 
 // Delete a category
-module.exports.deleteCategory = (_id, callback) => {
-    Category.deleteOne({_id: _id}, callback);
+module.exports.deleteCategory = (_id) => {
+    Category.deleteOne({_id: _id}, (err, res) => {
+        if(err) 
+            reject(err);
+        else
+            resolve(res);
+    });
 }
