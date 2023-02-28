@@ -10,10 +10,10 @@ block content
                 input.form-control(name='title', type= 'text')
             .form-group
                 label Subtitle:
-                input.form-control(name='description')
+                input.form-control(name='subtitle')
             .form-group
                 label Category
-                select.form-control(name='category')
+                select.form-control(name='category_id')
                     each category, i in categories
                         option(value=category._id) #{category.title}
             .form-group

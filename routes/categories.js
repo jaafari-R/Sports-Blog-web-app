@@ -6,7 +6,6 @@ Category = require('../model/category')
 
 
 /* ----- Views -----  */
-
 router.get('/', (req, res) => {
     Category.getCategories((err, categories) => {
         if(err) {
@@ -37,7 +36,6 @@ router.get('/:id', (req, res) => {
 
 
 /* ----- Posts ----- */
-
 router.post('/add', (req, res) => {
     let category = new Category();
     category.title = req.body.title;

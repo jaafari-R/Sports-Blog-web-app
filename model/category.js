@@ -13,8 +13,15 @@ const Category = module.exports = mongoose.model('Category', categorySchema);
 /* ----- Queries ----- */
 
 // get `limit` categories
-module.exports.getCategories = (callback, limit) => {
-    Category.find(callback).limit(limit).sort([['title', 'ascending']]);
+module.exports.getCategories = (limit) => {
+    return new Promise((resolve, reject) => {
+        Category.find((err, categories) => {
+            if(err) 
+                reject(err);
+            else
+                resolve(categories);
+        }).limit(limit).sort([['title', 'ascending']]);
+    });
 }
 
 // get category by _id

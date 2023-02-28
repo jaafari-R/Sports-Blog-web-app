@@ -2,4 +2,31 @@ extends ../layout
 
 
 block content 
-    h1 #{title}
+    .container
+        h1 #{title}
+        form(method='post', action=`/articles/edit/${article.id}`)
+            .form-group
+                label Title: 
+                input.form-control(name='title', type='text' value=article.title)
+            .form-group
+                label Subtitle:
+                input.form-control(name='subtitle' value=article.subtitle)
+            .form-group
+                label Category
+                select.form-control(name='category_id')
+                    each category, i in categories
+                        option(value=category._id selected= (category.id == article.category_id)) #{category.title}
+            .form-group
+                label Author:
+                input.form-control(name='author' value=article.author)
+            .form-group
+                label Content:
+                textarea.form-control(name='body') #{article.body}
+            br
+            input(class='btn btn-primary form-control' type='submit', name='submit', value='save')
+            br
+            br
+            a(class="btn btn-danger btn-tiny article-delete form-control" href=`#` data-cat-id=article._id) Delete
+            hr
+            hr
+            a(class='btn btn-danger form-control' href='/manage/articles') Back

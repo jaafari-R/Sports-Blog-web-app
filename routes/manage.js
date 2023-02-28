@@ -27,23 +27,30 @@ router.get('/articles', (req, res) => {
 
 router.get('/articles/add', (req, res) =>
 {
-    Category.getCategories((err, categories) => {
-        if(err) {
-            console.log(err)
-            res.send("Error: Failed to create categories.")
-        }
-        else {
-            res.render('manage/add_article', {
-                title: 'Create Article',
-                categories
-            });            
-        }
-    });
+    Category.getCategories()
+    .then((categories) => {
+        res.render('manage/add_article', {
+            title: 'Create Article',
+            categories
+        });            
+    })
 });
 
 router.get('/articles/edit/:id', (req, res) =>
 {
-    res.render('manage/edit_article', {title: 'Edit Article'});
+    const id = req.params.id;
+
+    Article.getArticleById(id)
+    .then((article) => { 
+        Category.getCategories()
+        .then((categories) => {
+            res.render('manage/edit_article', {
+                title: 'Create Article',
+                categories,
+                article
+            });    
+        });
+    });
 });
 
 
