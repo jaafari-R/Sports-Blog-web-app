@@ -1,5 +1,16 @@
 extends ../layout 
 
 
-block content 
-    h1 #{title}
+block content
+    .container
+        h1.text-center #{title}
+        a.btn.btn-success.form-control(href="/manage/categories/add") Add a Category
+        table(class='table table-striped')
+            tr
+                th
+                th
+                each article, i in articles
+                    tr 
+                        td #{article.title}
+                        td
+                            a(class="btn btn-secondary btn-tiny" href=`/manage/categories/edit/${article._id}`) Edit
