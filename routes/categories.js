@@ -55,8 +55,10 @@ body('title').notEmpty().withMessage("Title is Required"),
         Category.addCategory(category)
         .then((result) => {
             console.log("Adding category:", category);
+            req.flash('success', 'Category Created');
             res.redirect('/manage/categories');
         }, (err) => {
+            req.flash('error', 'Category Creation Failed');
             res.send("Error: Failed to create category.");
         });
     }
@@ -84,9 +86,11 @@ body('title').notEmpty().withMessage("Title is Required"),
     Category.updateCategory(id, category)
     .then((result) => {
         console.log("Updating category:", id, category, "\nres:", result);
+        req.flash('success', 'Category Edited');
         res.redirect('/manage/categories');
     }, (err) => {
-        res.send("Error: Failed to edit category.");
+        req.flash('error', 'Edit Category Failed');
+        res.redirect('/manage/categories');
     });
 })
 

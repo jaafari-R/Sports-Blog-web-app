@@ -54,8 +54,10 @@ body('author').notEmpty().withMessage("Author is Required"),
         Article.addArticle(article)
         .then((result) => {
             console.log("Adding article:", result);
+            req.flash('success', 'Article Created');
             res.redirect('/manage/articles');
         }, (err) => {
+            req.flash('error', 'Article Creation Failed');
             res.send("Error: Failed to add article :(");
         });
     } 
@@ -97,8 +99,10 @@ body('author').notEmpty().withMessage("Author is Required"),
         Article.updateArticle(id, article)
         .then((result) => {
             console.log("Adding article:", result)
+            req.flash('success', 'Article Edited');
             res.redirect('/manage/articles');
         }, (err) => {
+            req.flash('error', 'Edit Article Failed');
             res.send("Error: Failed to add article :(");
         });
     }

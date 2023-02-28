@@ -1,0 +1,27 @@
+#messages {
+    margin: 10px;
+}
+
+#messages li {
+    padding: 10px;
+    list-style: none;
+}
+
+#messages ul {
+    margin:0;
+    padding: 0;
+}
+
+#messages .success {
+    color: rgb(32, 32, 30);
+    text-align: center;
+    /* position: fixed; */
+    background-color: #33e40f;
+}
+
+#messages .error {
+    color: #fff;
+    text-align: center;
+    /* position: fixed; */
+    background-color: #f52b2b;
+}

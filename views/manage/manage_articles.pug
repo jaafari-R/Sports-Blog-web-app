@@ -4,6 +4,7 @@ extends ../layout
 block content
     .container
         h1.text-center #{title}
+        != messages()
         a.btn.btn-success.form-control(href="/manage/articles/add") Add a Category
         table(class='table table-striped')
             tr

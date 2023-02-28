@@ -20,6 +20,12 @@ const app = express();
 
 app.locals.moment = require('moment')
 
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true
+}));
+
 // View
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
