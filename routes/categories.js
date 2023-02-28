@@ -7,31 +7,27 @@ Category = require('../model/category')
 
 /* ----- Views -----  */
 router.get('/', (req, res) => {
-    Category.getCategories((err, categories) => {
-        if(err) {
-            console.log(err)
-            res.send("Error: Failed to create categories.")
-        }
+    Category.getCategories()
+    .then((categories) => {
         res.render('categories/categories', {
             title: 'Categories',
-            categories: categories
+            categories
         });
-    })
+    }, (err) => {
+        res.send("Error: Failed to retrieve categories.");
+    });
 });
 
 router.get('/:id', (req, res) => {
-    Category.getCategoryById((err, category) => {
-        if(err) {
-            console.log(err)
-            res.send("Failed to retrieve category!")
-        }
-        else {
-            res.render('categories/category', {
-                title: "Category",
-                category: category
-            });
-        }
-    }, req.params.id)
+    Category.getCategoryById(req.params.id)
+    .then((category) => {
+        res.render('categories/category', {
+            title: "Category",
+            category: category
+        });
+    }, (err) => {
+        res.send("Error: Failed to retrieve category.");
+    })
 });
 
 
