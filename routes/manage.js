@@ -2,11 +2,26 @@ const express = require('express');
 
 const router = express.Router();
 
+
+/* DB Models*/
 Category = require('../model/category')
+Article = require('../model/article')
 
 
 router.get('/articles', (req, res) => {
-    res.render('manage/manage_articles', {title: "Manage Articles"});
+    Article.getArticles(undefined, (err, articles) => {
+        if(err)
+        {
+            console.log(err);
+            res.send("Error: Failer to retrieve articles")
+        }
+        else {
+            res.render('manage/manage_articles', {
+                title: "Manage Articles",
+                articles: articles
+            });
+        }
+    });
 });
 
 router.get('/categories', (req, res) => {
