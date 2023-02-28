@@ -6,13 +6,13 @@ const articleSchema = mongoose.Schema({
     category_id: {type: mongoose.Types.ObjectId},
     body: {type: String},
     author: {type: String},
-    created_at: {type: Date, defailt: Date.now},
+    created_at: {type: Date, default: Date.now},
     comments: [{
         comment_subject: {type: String},
         comment_body: {type: String},
         comment_author: {type: String},
         comment_email: {type: String},
-        comment_date: {type: Date, defailt: Date.now}        
+        comment_date: {type: Date, default: Date.now}        
     }]
 })
 

@@ -7,10 +7,14 @@ block content
         a.btn.btn-success.form-control(href="/manage/articles/add") Add a Category
         table(class='table table-striped')
             tr
-                th
+                th Article Title
+                th Date Published
+                th Author
                 th
                 each article, i in articles
                     tr 
                         td #{article.title}
+                        td #{moment(article.created_at).format('YYYY MMMM Do, h:mm:ss a')}
+                        td #{article.author}
                         td
                             a(class="btn btn-secondary btn-tiny" href=`/manage/articles/edit/${article._id}`) Edit

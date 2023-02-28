@@ -57,5 +57,15 @@ router.post('/edit/:id', (req, res) => {
 });
 
 /* ----- Delete ----- */
+router.delete('/delete/:id', (req, res) => {
+    id = req.params.id;
+
+    Article.deleteArticle(id)
+    .then((result) => {
+        res.sendStatus(200);
+    }, (err) => {
+        res.send("Error: Failed to delete article :(");
+    });
+});
 
 module.exports = router;

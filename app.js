@@ -18,6 +18,7 @@ const db = mongoose.connection;
 // App Init
 const app = express();
 
+app.locals.moment = require('moment')
 
 // View
 app.set('views', path.join(__dirname, 'views'));
