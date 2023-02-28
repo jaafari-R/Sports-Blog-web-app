@@ -1,10 +1,12 @@
 const express = require('express');
+const { body, validationResult } = require('express-validator');
 
 const router = express.Router();
 
 
 /* ----- DB Models ----- */
 Article = require('../model/article')
+Category = require('../model/category')
 
 
 /* ----- Views ----- */
@@ -18,7 +20,12 @@ router.get('/show/:id', (req, res) => {
 
 
 /* ----- Posts ----- */
-router.post('/add', (req, res) => {
+router.post('/add', 
+body('title').notEmpty().withMessage("Title is Required"),
+body('category_id').notEmpty().withMessage("Category is Required"),
+body('author').notEmpty().withMessage("Author is Required"),
+(req, res) => {
+
     const article = new Article()
     article.title = req.body.title;
     article.subtitle = req.body.subtitle;
@@ -27,16 +34,39 @@ router.post('/add', (req, res) => {
     article.author = req.body.author;
     article.comments = [];
 
-    Article.addArticle(article)
-    .then((result) => {
-        console.log("Adding article:", result);
-        res.redirect('/manage/articles');
-    }, (err) => {
-        res.send("Error: Failed to add article :(");
-    }); 
+    const errors = validationResult(req);
+    if(!errors.isEmpty())
+    {
+        Category.getCategories()
+        .then((categories) => {
+            return res.render('manage/add_article', {
+                errors: errors.array(),
+                title: 'Create Article',
+                categories,
+                article
+            });            
+        }, (err) => {
+            return res.send("Error: Failed to add article");
+        });
+    }
+    else
+    {
+        Article.addArticle(article)
+        .then((result) => {
+            console.log("Adding article:", result);
+            res.redirect('/manage/articles');
+        }, (err) => {
+            res.send("Error: Failed to add article :(");
+        });
+    } 
 });
 
-router.post('/edit/:id', (req, res) => {
+router.post('/edit/:id',
+body('title').notEmpty().withMessage("Title is Required"),
+body('category_id').notEmpty().withMessage("Category is Required"),
+body('author').notEmpty().withMessage("Author is Required"),
+(req, res) => {
+    
     const id = req.params.id;
     const article = {
         title: req.body.title,
@@ -47,13 +77,31 @@ router.post('/edit/:id', (req, res) => {
         comments: []
     }
 
-    Article.updateArticle(id, article)
-    .then((result) => {
-        console.log("Adding article:", result)
-        res.redirect('/manage/articles');
-    }, (err) => {
-        res.send("Error: Failed to add article :(");
-    });
+    const errors = validationResult(req);
+    if(!errors.isEmpty())
+    {
+        Category.getCategories()
+        .then((categories) => {
+            res.render('manage/edit_article', {
+                errors: errors.array(),
+                title: 'Create Article',
+                categories,
+                article
+            });    
+        }, (err) => {
+            res.send("Error: Failed to retrieve categories.");
+        });
+    }
+    else
+    {
+        Article.updateArticle(id, article)
+        .then((result) => {
+            console.log("Adding article:", result)
+            res.redirect('/manage/articles');
+        }, (err) => {
+            res.send("Error: Failed to add article :(");
+        });
+    }
 });
 
 /* ----- Delete ----- */
